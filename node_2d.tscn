@@ -1,14 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://cimc13dbu3rp4"]
+[gd_scene load_steps=8 format=3 uid="uid://cimc13dbu3rp4"]
 
 [ext_resource type="Texture2D" uid="uid://xbktq8kcxtpw" path="res://floor.png" id="1_bahow"]
 [ext_resource type="Texture2D" uid="uid://d2at6gjym7ri7" path="res://Light.png" id="2_h36co"]
+[ext_resource type="PackedScene" uid="uid://durvk05miel4g" path="res://wall.tscn" id="2_lyvtk"]
+[ext_resource type="PackedScene" uid="uid://crbxrf51kfvld" path="res://player.tscn" id="3_63mde"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_j6yi8"]
 closed = false
 polygon = PackedVector2Array(-7.08897, -7.08897, 7.03203, -7.08897, 7.03203, 7.03203, -7.08897, 7.03203)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iggr6"]
-polygon = PackedVector2Array(7.99999, 8, -8, 8, -8, -8, 7.99999, -8)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wnn5f"]
 light_mode = 1
@@ -18,100 +17,91 @@ light_mode = 1
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Room" type="Node2D" parent="."]
+
+[node name="Floor" type="Sprite2D" parent="Room"]
 position = Vector2(281, 281)
 scale = Vector2(35.125, 35.125)
 texture = ExtResource("1_bahow")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Room/Floor"]
 occluder = SubResource("OccluderPolygon2D_j6yi8")
 occluder_light_mask = 3
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-position = Vector2(304, 80)
+[node name="Wall" parent="Room" instance=ExtResource("2_lyvtk")]
+position = Vector2(304, 71)
 scale = Vector2(6, 6)
-texture = ExtResource("1_bahow")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D2"]
-occluder = SubResource("OccluderPolygon2D_iggr6")
-occluder_light_mask = 3
-
-[node name="Sprite2D3" type="Sprite2D" parent="."]
-position = Vector2(304, 176)
+[node name="Wall2" parent="Room" instance=ExtResource("2_lyvtk")]
+position = Vector2(304, 167)
 scale = Vector2(6, 6)
-texture = ExtResource("1_bahow")
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D3"]
-occluder = SubResource("OccluderPolygon2D_iggr6")
 occluder_light_mask = 2
 
-[node name="Sprite2D4" type="Sprite2D" parent="."]
-position = Vector2(304, 272)
+[node name="StaticBody2D" parent="Room/Wall2" index="1"]
+collision_layer = 18
+
+[node name="Wall3" parent="Room" instance=ExtResource("2_lyvtk")]
+position = Vector2(304, 263)
 scale = Vector2(6, 6)
-texture = ExtResource("1_bahow")
+occluder_light_mask = 1
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D4"]
-occluder = SubResource("OccluderPolygon2D_iggr6")
+[node name="StaticBody2D" parent="Room/Wall3" index="1"]
+collision_layer = 17
 
-[node name="Sprite2D5" type="Sprite2D" parent="."]
-position = Vector2(304, 368)
+[node name="Wall4" parent="Room" instance=ExtResource("2_lyvtk")]
+position = Vector2(304, 359)
 scale = Vector2(6, 6)
-texture = ExtResource("1_bahow")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D5"]
-occluder = SubResource("OccluderPolygon2D_iggr6")
-occluder_light_mask = 3
-
-[node name="Sprite2D6" type="Sprite2D" parent="."]
-position = Vector2(304, 464)
+[node name="Wall5" parent="Room" instance=ExtResource("2_lyvtk")]
+position = Vector2(304, 455)
 scale = Vector2(6, 6)
-texture = ExtResource("1_bahow")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D6"]
-occluder = SubResource("OccluderPolygon2D_iggr6")
-occluder_light_mask = 3
-
-[node name="Sprite2D7" type="Sprite2D" parent="."]
-position = Vector2(304, 560)
+[node name="Wall6" parent="Room" instance=ExtResource("2_lyvtk")]
+position = Vector2(304, 551)
 scale = Vector2(6, 6)
-texture = ExtResource("1_bahow")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D7"]
-occluder = SubResource("OccluderPolygon2D_iggr6")
-occluder_light_mask = 3
+[node name="Lights" type="Node2D" parent="."]
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-position = Vector2(0, 3.05176e-05)
-scale = Vector2(1, 1)
-color = Color(0.404511, 0.404511, 0.404511, 1)
-
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="Lights"]
 position = Vector2(142, 186)
 scale = Vector2(6.71, 6.23)
 color = Color(0, 0, 1, 1)
 energy = 2.0
 shadow_enabled = true
 texture = ExtResource("2_h36co")
-texture_scale = 0.45
+texture_scale = 14.35
 
-[node name="Sprite2D" type="Sprite2D" parent="PointLight2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Lights/PointLight2D"]
 modulate = Color(0, 0, 1, 1)
 material = SubResource("CanvasItemMaterial_wnn5f")
 scale = Vector2(0.223547, 0.223547)
 texture = ExtResource("1_bahow")
 
-[node name="PointLight2D2" type="PointLight2D" parent="."]
-position = Vector2(147, 281)
+[node name="PointLight2D2" type="PointLight2D" parent="Lights"]
+position = Vector2(154, 270)
 scale = Vector2(6.71, 6.23)
 color = Color(1, 0, 0, 1)
 energy = 2.0
 shadow_enabled = true
 shadow_item_cull_mask = 2
 texture = ExtResource("2_h36co")
-texture_scale = 0.45
+texture_scale = 9.5
 
-[node name="Sprite2D2" type="Sprite2D" parent="PointLight2D2"]
+[node name="Sprite2D2" type="Sprite2D" parent="Lights/PointLight2D2"]
 modulate = Color(1, 0, 0, 1)
 material = SubResource("CanvasItemMaterial_856si")
 scale = Vector2(0.223547, 0.223547)
 texture = ExtResource("1_bahow")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2(0, 3.05176e-05)
+color = Color(0.404511, 0.404511, 0.404511, 1)
+
+[node name="Player" parent="." node_paths=PackedStringArray("lights", "canvasModulate") instance=ExtResource("3_63mde")]
+position = Vector2(422, 75)
+lights = NodePath("../Lights")
+canvasModulate = NodePath("../CanvasModulate")
+
+[editable path="Room/Wall2"]
+[editable path="Room/Wall3"]
+[editable path="Room/Wall4"]
