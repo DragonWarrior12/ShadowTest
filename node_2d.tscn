@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cimc13dbu3rp4"]
+[gd_scene load_steps=14 format=3 uid="uid://cimc13dbu3rp4"]
 
 [ext_resource type="Texture2D" uid="uid://xbktq8kcxtpw" path="res://floor.png" id="1_bahow"]
 [ext_resource type="Texture2D" uid="uid://d2at6gjym7ri7" path="res://Light.png" id="2_h36co"]
 [ext_resource type="PackedScene" uid="uid://durvk05miel4g" path="res://wall.tscn" id="2_lyvtk"]
 [ext_resource type="PackedScene" uid="uid://crbxrf51kfvld" path="res://player.tscn" id="3_63mde"]
+[ext_resource type="Shader" path="res://glow_in_dark.gdshader" id="5_syuis"]
+[ext_resource type="Texture2D" uid="uid://2v4bwjtcbqqq" path="res://square.png" id="6_sldvm"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_j6yi8"]
 closed = false
@@ -14,6 +16,20 @@ light_mode = 1
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_856si"]
 light_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3ktm8"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_t1kl2"]
+colors = PackedColorArray(0, 1, 0, 1, 0, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1ln4k"]
+gradient = SubResource("Gradient_t1kl2")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ihwjm"]
+shader = ExtResource("5_syuis")
+shader_parameter/on_light_color = null
 
 [node name="Node2D" type="Node2D"]
 
@@ -63,7 +79,7 @@ scale = Vector2(6, 6)
 [node name="Lights" type="Node2D" parent="."]
 
 [node name="PointLight2D" type="PointLight2D" parent="Lights"]
-position = Vector2(142, 186)
+position = Vector2(111, 253)
 scale = Vector2(6.71, 6.23)
 color = Color(0, 0, 1, 1)
 energy = 2.0
@@ -78,14 +94,14 @@ scale = Vector2(0.223547, 0.223547)
 texture = ExtResource("1_bahow")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lights"]
-position = Vector2(154, 270)
+position = Vector2(386, 96)
 scale = Vector2(6.71, 6.23)
 color = Color(1, 0, 0, 1)
 energy = 2.0
 shadow_enabled = true
 shadow_item_cull_mask = 2
 texture = ExtResource("2_h36co")
-texture_scale = 9.5
+texture_scale = 0.5
 
 [node name="Sprite2D2" type="Sprite2D" parent="Lights/PointLight2D2"]
 modulate = Color(1, 0, 0, 1)
@@ -101,6 +117,25 @@ color = Color(0.404511, 0.404511, 0.404511, 1)
 position = Vector2(422, 75)
 lights = NodePath("../Lights")
 canvasModulate = NodePath("../CanvasModulate")
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(0, -92)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+clip_children = 2
+light_mask = 3
+material = SubResource("CanvasItemMaterial_3ktm8")
+position = Vector2(442, 326)
+scale = Vector2(1, 4.9)
+texture = SubResource("GradientTexture2D_1ln4k")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D/Sprite2D"]
+self_modulate = Color(0.403922, 0.403922, 0.403922, 1)
+light_mask = 3
+material = SubResource("ShaderMaterial_ihwjm")
+position = Vector2(1.99997, -3.50009)
+scale = Vector2(0.920001, 1.07)
+texture = ExtResource("6_sldvm")
 
 [editable path="Room/Wall2"]
 [editable path="Room/Wall3"]
